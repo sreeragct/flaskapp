@@ -122,6 +122,29 @@ def dashboard():
     else:
         msg = 'No Articles Found'
         return render_template('dashboard.html', msg=msg)
+    
+   
+# Article Form Class
+class ArticleForm(Form):
+    title = StringField('Title', [validators.Length(min=1, max=200)])
+    body = TextAreaField('Body', [validators.Length(min=30)])
+
+
+@app.route('/add_article', methods=['GET', 'POST'])
+@is_logged_in
+def add_article():
+    form = ArticleForm(request.form)
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        body = form.body.data
+
+        Database.insert("blogs", {'title':title, 'body':body, 'author':session['username']})
+
+        flash('Article Created', 'success')
+
+        return redirect(url_for('dashboard'))
+
+    return render_template('add_article.html', form=form)
 
 
 if __name__ == "__main__":
