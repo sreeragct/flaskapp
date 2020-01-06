@@ -79,7 +79,7 @@ def login():
 
                 flash('You are now logged in', 'success')
                 #return redirect(url_for('dashboard'))
-                return redirect(url_for('about'))
+                return redirect(url_for('dashboard'))
             else:
                 error = 'Invalid login'
                 return render_template('login.html', error=error)
