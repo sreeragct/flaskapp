@@ -2,9 +2,13 @@ from flask import Flask,render_template,request, flash, redirect, url_for, sessi
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from database import Database
+from functools import wraps
 
 app = Flask(__name__)
+
+
 app.secret_key = 'secret123'
+
 
 @app.route('/')
 def index():
@@ -64,12 +68,7 @@ def login():
 
         data = Database.find_one("test", {"username": username})
 
-        #result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
-        
-
         if data is not None:
-            # Get stored hash
-            #data = cur.fetchone()
             password = data['password']
 
             # Compare Passwords
@@ -91,13 +90,25 @@ def login():
     return render_template('login.html')
 
 
+# Check if user logged in
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized User, Please login')
+            return redirect(url_for('login'))
+    return wrap
+
+# Logout
 @app.route('/logout')
+@is_logged_in
 def logout():
-    session['logged_in'] = None
-    session['username'] = None
-    return render_template('home.html')
+    session.clear()
+    flash('You are now logged out', 'success')
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
-    
     app.run(debug=True)
