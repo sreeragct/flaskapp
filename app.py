@@ -110,5 +110,19 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Dashboard
+@app.route('/dashboard')
+@is_logged_in
+def dashboard():
+
+    result = Database.find_one("blogs", {"username": session['username']})
+
+    if result is not None:
+        return render_template('dashboard.html', articles=result)
+    else:
+        msg = 'No Articles Found'
+        return render_template('dashboard.html', msg=msg)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
