@@ -4,7 +4,7 @@ from passlib.hash import sha256_crypt
 from database import Database
 
 app = Flask(__name__)
-
+app.secret_key = 'secret123'
 
 @app.route('/')
 def index():
@@ -91,5 +91,5 @@ def login():
 
 
 if __name__ == "__main__":
-    app.secret_key = 'secret123'
+    
     app.run(debug=True)
