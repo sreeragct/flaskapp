@@ -4,7 +4,7 @@ import pymongo
 class Database(object):
     @staticmethod
     def initialize():
-        client = pymongo.MongoClient("mongodb://Test:Test123@ds157624.mlab.com:57624/heroku_jzzwnszb")
+        client = pymongo.MongoClient("mongodb://test:test123@ds359868.mlab.com:59868/heroku_pt0qk8kw")
         Database.DATABASE = client.get_default_database()
 
     @staticmethod
