@@ -93,8 +93,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session['logged_in'] = NULL
-    session['username'] = NULL
+    session['logged_in'] = None
+    session['username'] = None
     return render_template('home.html')
 
 
