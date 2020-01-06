@@ -62,13 +62,14 @@ def login():
         username = request.form['username']
         password_candidate = request.form['password']
 
-        data1 = Database.find_one("test", {"username": username})
+        data = Database.find_one("test", {"username": username})
 
-        result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+        #result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+        
 
-        if result > 0:
+        if data > 0:
             # Get stored hash
-            data = cur.fetchone()
+            #data = cur.fetchone()
             password = data['password']
 
             # Compare Passwords
