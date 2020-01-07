@@ -115,7 +115,7 @@ def logout():
 @is_logged_in
 def dashboard():
 
-    result = Database.find_one("blogs", {"username": session['username']})
+    result = Database.find_one("blogs", {"author": session['username']})
 
     if result is not None:
         return render_template('dashboard.html', articles=result)
